@@ -1,0 +1,11 @@
+{% extends "template.html" %}
+{% block content %}
+<table>
+    {% for file in token.files %}
+        <tr>
+            <td><a href="/download/{{session}}/{{loop.index0}}">{{file['description']}}</a></td>
+            <td>{{file['size']}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
