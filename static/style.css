@@ -1,0 +1,19 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+#content {
+    text-align: center;
+    margin-top: 4em;
+}
+
+#footer {
+    color: gray;
+    text-align: center;
+    margin-top: 4em;
+}
+
+#footer a {
+    color: darkgray;
+}
+
