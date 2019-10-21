@@ -89,4 +89,5 @@ def create_session(token_id):
     return session_id
 	
 
-app.run(host='localhost', port=8080, debug=True)
+if __name__ == '__main__':    
+    app.run(host='localhost', port=8080, debug=True)
