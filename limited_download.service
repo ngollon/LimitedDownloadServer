@@ -6,7 +6,7 @@ After=syslog.target network.target
 Type=simple
 User=downloads
 WorkingDirectory=/srv/http/downloads
-ExecStart=/srv/http/downloads/venv/bin/gnunicorn -b 127.0.0.1:8117 app:app
+ExecStart=/srv/http/downloads/venv/bin/gunicorn -b 127.0.0.1:8117 app:app
 
 [Install]
 WantedBy=multi-user.target
