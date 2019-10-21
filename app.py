@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, abort, send_file, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
 from redis import Redis
 import pickle
 from uuid import uuid4
@@ -9,6 +10,8 @@ import os
 from download_token import DownloadToken
 
 app = Flask(__name__, template_folder='views')
+app.wsgi_app = ProxyFix(app.wsgi_app)
+
 redis = Redis(host='localhost', port=6379, db=4)
 
 @app.route('/')
