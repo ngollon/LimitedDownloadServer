@@ -75,8 +75,6 @@ def is_valid(token, remote_addr):
     known_ip = remote_addr in map(lambda d: d['ip'], token.downloads)    
     number_of_ips = len(set(map(lambda d: d['ip'], token.downloads)))
 
-    print(first_download, known_ip, number_of_ips)
-
     if datetime.now() - first_download > token.grace_period:
         return False
 
