@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, abort, send_file, url_for
+from flask import Flask, Response, request, render_template, abort, send_file, url_for, make_response
 from werkzeug.middleware.proxy_fix import ProxyFix
 from redis import Redis
 import pickle
@@ -11,7 +11,6 @@ from download_token import DownloadToken
 
 app = Flask(__name__, template_folder='views')
 app.wsgi_app = ProxyFix(app.wsgi_app)
-app.use_x_sendfile = True
 
 redis = Redis(host='localhost', port=6379, db=4)
 
@@ -53,7 +52,18 @@ def download(session, id):
     token.downloads.append({'ip': request.remote_addr, 'datetime': datetime.now()})
     store_token(token)
 
-    return send_file(token.files[id]['path'], as_attachment=True)
+# We will use X-Accel to serve the files
+    root_path = "/srv/http/downloads/files/"
+    root_url = "/files/"
+
+# We construct the response ourselves, but use send_files to guess the headers
+    file_path = token.files[id]['path']
+    send_response = make_response(send_file(file_path, as_attachment=True))
+    response = Response()
+    for key, value in send_response.headers:
+        response.headers[key] = value
+    response.headers["X-Accel-Redirect"] = file_path.replace(root_path, root_url)
+    return response
     
 def get_token(token_id):
 	if token_id is None:
