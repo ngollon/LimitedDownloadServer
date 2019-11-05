@@ -11,6 +11,7 @@ from download_token import DownloadToken
 
 app = Flask(__name__, template_folder='views')
 app.wsgi_app = ProxyFix(app.wsgi_app)
+app.use_x_sendfile = True
 
 redis = Redis(host='localhost', port=6379, db=4)
 
