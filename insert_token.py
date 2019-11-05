@@ -23,6 +23,6 @@ while i < len(sys.argv):
     i += 2
 
 token = DownloadToken(tokenId, files)
-print(f"Created token with ID {tokenId}. Contents: {str(files)}")
+print(tokenId)
 
 redis.set(token.id, pickle.dumps(token))
